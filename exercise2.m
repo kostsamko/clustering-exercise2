@@ -85,5 +85,5 @@ cluster_3 = country(find(best_bel{3} == 3))
 % Try k-medians clopy paste the code (?)
 % Execute other fuzzy algorithms..
 % Find a way to charecterize the clustering produced. Std per feature in
-% each clusters as the professor said (?) Mean,std,mean ? Check the subject
-% characterization of clusters in assignment.
+% each clusters as the professor said (?) Mean,std,histogram ? Check the subject
+% characterization of clusters in the assignment.
