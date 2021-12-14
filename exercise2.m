@@ -79,7 +79,7 @@ cluster_2 = country(find(best_bel{3} == 2))
 cluster_3 = country(find(best_bel{3} == 3))
 
 % To do: 
-% Check why for 1 cluster we have a smaller value than with more one . An indication that we
+% Check why for 1 cluster we have a smaller value than with other values . An indication that we
 % don't have compact clusters or a bug (?)
 % min-max normalization and execute again all the algorithms (?)
 % Try k-medians clopy paste the code (?)
