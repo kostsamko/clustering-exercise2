@@ -8,12 +8,19 @@ for i=1:9
     subplot(3,3,i)
     histogram(Countrydata(:,i));
 end
+hold off
 
 %mean, standard devation per feature
 mean_features_values = mean(Countrydata);
 std_features_values = std(Countrydata);
 %matrix with correlation between features. Drop some highly corelated feautues(?)
-coefficient_matrix_ = corrcoef(Countrydata);
+coefficient_matrix = corrcoef(Countrydata);
+
+%feature selection
+%based on observations in the coefficient_matrix_ we can remove features 1
+%and 5 becase they are highly correlated with 8 and 9
+Countrydata(:,1) = [];
+Countrydata(:,5) = [];
 
 % normalize the data 
 
@@ -62,8 +69,21 @@ for j=1:m
     end 
 end
 
+% plot elbow curve to find the number of clusters
+figure(2), plot(best_J)
+hold off
 
 % clusters found are 3
 cluster_1 = country(find(best_bel{3} == 1))
 cluster_2 = country(find(best_bel{3} == 2))
 cluster_3 = country(find(best_bel{3} == 3))
+
+% To do: 
+% Check why for 1 cluster we have a smaller value than with more thne . An indication that we
+% don't have compact clusters or a bug (?)
+% min-max normalization and execute again all the algorithms (?)
+% Try k-medians clopy paste the code (?)
+% Execute other fuzzy algorithms..
+% Find a way to charecterize the clustering produced. Std per feature in
+% each clusters as the professor said (?) Mean,std,mean ? Check the subject
+% characterization of clusters in assignment.
