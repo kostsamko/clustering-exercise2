@@ -41,7 +41,7 @@ max_standard_score_values = max(standard_score);
 % k-means
 [best_thetas_k_means_zscore,best_bel_k_means_zscore,best_J_k_means_zscore] = k_algorithms(standard_score',10, 1000, 'k_means');
 % plot elbow curve to find the number of clusters
-figure(2), plot(best_J_k_means_zscore(2:end))
+figure(2), plot(2:10,best_J_k_means_zscore(2:end))
 title('K-means elbow plot - zscore normalization')
 hold off
 
@@ -55,14 +55,14 @@ cluster_3 = country(find(best_bel_k_means_zscore{3} == 3))
 % k-medians
 [best_thetas_k_medians_zscore,best_bel_k_medians_zscore,best_J_k_medians_zscore] = k_algorithms(standard_score',10, 1000, 'k_medians');
 % plot elbow curve to find the number of clusters
-figure(3), plot(best_J_k_medians_zscore(2:end))
+figure(3), plot(2:10,best_J_k_medians_zscore(2:end))
 title('K-medians elbow plot - zscore normalization')
 hold off
 
 % k-medoids
-[best_thetas_k_medoids_zscore,best_bel_k_medoids_zscore,best_J_k_medoids_zscore] = k_algorithms(standard_score',10, 100, 'k_medoids');
+[best_thetas_k_medoids_zscore,best_bel_k_medoids_zscore,best_J_k_medoids_zscore] = k_algorithms(standard_score',10, 10, 'k_medoids');
 % plot elbow curve to find the number of clusters
-figure(4), plot(best_J_k_medoids_zscore(2:end))
+figure(4), plot(2:10,best_J_k_medians_zscore(2:end))
 title('K-medoids elbow plot - zscore normalization')
 hold off
 
