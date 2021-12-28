@@ -1,4 +1,4 @@
-function [bel,cost,w,a]=k_medoids(X,m,sed)
+function [w,bel,cost,a]=k_medoids(X,m,sed)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FUNCTION

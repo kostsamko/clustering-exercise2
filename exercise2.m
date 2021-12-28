@@ -1,12 +1,14 @@
 load data_country;
 
 %feeling the data
+features_names = {'Child mortality','Exports','Health','Imports','Income','Inflation','Life expectancy','Total fertality','GDPP'};
 min_features_values = min(Countrydata);
 max_features_values = max(Countrydata);
 figure(1), hold on
 for i=1:9
     subplot(3,3,i)
     histogram(Countrydata(:,i));
+    title(features_names{i}) 
 end
 hold off
 
@@ -17,66 +19,52 @@ std_features_values = std(Countrydata);
 coefficient_matrix = corrcoef(Countrydata);
 
 %feature selection
-%based on observations in the coefficient_matrix_ we can remove features 1
-%and 5 becase they are highly correlated with 8 and 9
+%based on observations in the coefficient_matrix_ we can remove feature 1
+%(Child_mortality) and 5 (Income ) because they are highly correlated with 8 (Total_fertality) and 9 (GDPP)
 Countrydata(:,1) = [];
 Countrydata(:,5) = [];
 
 % normalize the data 
 
 % standard score normalization
-standard_score = zscore(Countrydata)
+standard_score = zscore(Countrydata);
 min_standard_score_values = min(standard_score);
 max_standard_score_values = max(standard_score);
 
 % min max normalization
-%min_max_normalization_matrix = zeros(size(Countrydata));
-
-%min_max_normalization_matrix = (Countrydata - ones(size(country)) * min_features_values) / (max_features_values - min_features_values)
+% min_max_normalization = normalize(Countrydata, 'range');
+% min_min_max_normalization = min(min_max_normalization);
+% max_min_max_normalization = max(min_max_normalization);
 
 %CLUSTERING METHODS
 
 % k-means
-%rand('seed',0)
-X = standard_score;
-X = X';
-[l,N] = size(X);
-% number of clusters to check
-m = 10;
-% number of runs to choose a good initial theta
-run_times = 1000;
-% best choosen values per cluster case
-best_thetas = cell(1,m);
-best_J = zeros(1,m);
-best_bel = cell(1,m);
-for j=1:m
-    theta_ini = zeros(l,j);
-    min_J = exp(1000);
-    for t=1:run_times
-        for k=1:j
-            for i=1:l
-                random_value = min_standard_score_values(:,i) + (max_standard_score_values(:,i)-min_standard_score_values(:,i)) * rand(1,1);
-                theta_ini(i,k) = random_value;
-            end    
-        end
-    [theta,bel,J] = k_means(X, theta_ini);
-    if J < min_J
-        min_J = J;
-        best_thetas{j} = theta;
-        best_J(j) = J;
-        best_bel{j} = bel;
-    end    
-    end 
-end
-
+[best_thetas_k_means_zscore,best_bel_k_means_zscore,best_J_k_means_zscore] = k_algorithms(standard_score',10, 1000, 'k_means');
 % plot elbow curve to find the number of clusters
-figure(2), plot(best_J)
+figure(2), plot(best_J_k_means_zscore(2:end))
+title('K-means elbow plot - zscore normalization')
 hold off
 
-% clusters found are 3
-cluster_1 = country(find(best_bel{3} == 1))
-cluster_2 = country(find(best_bel{3} == 2))
-cluster_3 = country(find(best_bel{3} == 3))
+% Based on the elbow plot the number of clusters that best represent the data using
+% k-means are 3. However, the decrease on J is not so big so k-means maybe
+% is not an appropriate algorithm for clustering the specfic data.
+cluster_1 = country(find(best_bel_k_means_zscore{3} == 1))
+cluster_2 = country(find(best_bel_k_means_zscore{3} == 2))
+cluster_3 = country(find(best_bel_k_means_zscore{3} == 3))
+
+% k-medians
+[best_thetas_k_medians_zscore,best_bel_k_medians_zscore,best_J_k_medians_zscore] = k_algorithms(standard_score',10, 1000, 'k_medians');
+% plot elbow curve to find the number of clusters
+figure(3), plot(best_J_k_medians_zscore(2:end))
+title('K-medians elbow plot - zscore normalization')
+hold off
+
+% k-medoids
+[best_thetas_k_medoids_zscore,best_bel_k_medoids_zscore,best_J_k_medoids_zscore] = k_algorithms(standard_score',10, 100, 'k_medoids');
+% plot elbow curve to find the number of clusters
+figure(4), plot(best_J_k_medoids_zscore(2:end))
+title('K-medoids elbow plot - zscore normalization')
+hold off
 
 % To do: 
 % Check why for 1 cluster we have a smaller value than with other values . An indication that we
