@@ -59,7 +59,7 @@ if strcmp('k_means',algorithm) || strcmp('k_medians',algorithm)
         end    
         end 
     end
-elseif  strcmp('k_medoids',algorithm)
+elseif strcmp('k_medoids',algorithm)
   for j=1:clusters  
      min_J = inf;  
      for t=1:run_times
@@ -71,7 +71,15 @@ elseif  strcmp('k_medoids',algorithm)
             best_bel{j} = bel;
          end
      end   
-  end      
+  end
+elseif strcmp('probalistic_gmm',algorithm)
+    options = statset('MaxIter',1000);
+    for j=1:10
+        GMModel = fitgmdist(X',j,'Replicates',run_times,'RegularizationValue',0.0000000001, 'Options',options);
+        best_J(j) = GMModel.NegativeLogLikelihood;
+        best_thetas{j} = GMModel.mu';
+        best_bel{j} = cluster(GMModel,X')';
+    end
 else
     error('Algorithm is not supported');
 end
