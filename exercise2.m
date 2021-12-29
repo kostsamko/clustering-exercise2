@@ -63,18 +63,17 @@ hold off
 % k-medoids
 [best_thetas_k_medoids_zscore,best_bel_k_medoids_zscore,best_J_k_medoids_zscore] = k_algorithms(standard_score',10, 10, 'k_medoids');
 % plot elbow curve to find the number of clusters
-figure(6), plot(2:10,best_J_k_medians_zscore(2:end))
+figure(6), plot(2:10,best_J_k_medoids_zscore(2:end))
 title('K-medoids elbow plot - zscore normalization')
 hold off
 
 [best_thetas_k_medoids_min_max,best_bel_k_medoids_min_max,best_J_k_medoids_min_max] = k_algorithms(min_max_normalization',10, 10, 'k_medoids');
 % plot elbow curve to find the number of clusters
-figure(7), plot(2:10,best_J_k_medians_zscore(2:end))
+figure(7), plot(2:10,best_J_k_medoids_min_max(2:end))
 title('K-medoids elbow plot - min max normalization')
 hold off
 
 % probalistic with gaussian mixture models
-
 [best_thetas_gmm_zscore,best_bel_gmm_zscore,best_J_gmm_zscore] = k_algorithms(standard_score',10, 1000, 'probalistic_gmm');
 % plot elbow curve to find the number of clusters
 figure(8), plot(2:10,best_J_gmm_zscore(2:end))
