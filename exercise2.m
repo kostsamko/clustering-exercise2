@@ -94,12 +94,33 @@ figure(9), plot(2:number_of_clusters,best_J_gmm_min_max(2:end))
 title('Gausian Mixture models elbow plot - min max normalization')
 hold off
 
+% fuzzy algorithm
+[best_thetas_fuzzy_zscore, best_bel_fuzzy_zscore, best_J_fuzzy_zscore] = k_algorithms(standard_score, number_of_clusters, 1000, 'fuzzy');
+% plot elbow curve to find the number of clusters
+figure(10), plot(2:number_of_clusters, best_J_fuzzy_zscore(2:end))
+title('Fuzzy elbow plot - zscore normalization')
+
+[best_thetas_fuzzy_min_max, best_bel_fuzzy_min_max, best_J_fuzzy_min_max] = k_algorithms(min_max_normalization, number_of_clusters, 1000, 'fuzzy');
+% plot elbow curve to find the number of clusters
+figure(11), plot(2:number_of_clusters, best_J_fuzzy_min_max(2:end))
+title('Fuzzy elbow plot - min max normalization')
+
 % Based on the elbow plot the number of clusters that best represent the data using
 % k-means are 3. However, the decrease on J is not so big so k-means maybe
 % is not an appropriate algorithm for clustering the specfic data.
 cluster_1 = country(find(best_bel_k_means_zscore{3} == 1));
 cluster_2 = country(find(best_bel_k_means_zscore{3} == 2));
 cluster_3 = country(find(best_bel_k_means_zscore{3} == 3));
+
+% fuzzy are 3
+U = best_bel_fuzzy_zscore{3};
+maxU = max(U);
+index1 = find(U(1,:) == maxU);
+index2 = find(U(2,:) == maxU);
+index3 = find(U(3,:) == maxU);
+cluster_1_f = country(index1);
+cluster_2_f = country(index2);
+cluster_3_f = country(index3);
 
 
 % Quantization
