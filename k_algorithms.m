@@ -82,18 +82,18 @@ elseif strcmp('probalistic_gmm',algorithm)
     end
 elseif strcmp('fuzzy', algorithm)
     for j=1:clusters
-    min_J = inf;
-    for t=1:run_times
-        [centers,U,objFunc] = fcm(X,j);
-        J = objFunc(end,1);
-        if J < min_J
-            min_J = J;
-            best_thetas{j} = centers;
-            best_J(j) = J;
-            best_bel{j} = U;
+        min_J = inf;
+        for t=1:run_times
+            [centers,U,objFunc] = fcm(X,j);
+            J = objFunc(end,1);
+            if J < min_J
+                min_J = J;
+                best_thetas{j} = centers;
+                best_J(j) = J;
+                best_bel{j} = U;
+            end
         end
     end
-end
 else
     error('Algorithm is not supported');
 end

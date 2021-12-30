@@ -24,8 +24,8 @@ coefficient_matrix = corrcoef(Countrydata);
 %(Total_fertality) and 9(GDPP) because they are highly correlated with 1 (Child_mortality) and 5 (Income)
 Countrydata(:,8) = [];
 Countrydata(:,8) = [];
-features_names = setdiff(features_names, features_names{8});
-features_names = setdiff(features_names, features_names{8});
+features_names = setdiff(features_names, features_names{8},'stable');
+features_names = setdiff(features_names, features_names{8},'stable');
 % normalize the data 
 
 % standard score normalization
@@ -105,37 +105,8 @@ title('Fuzzy elbow plot - zscore normalization')
 figure(11), plot(2:number_of_clusters, best_J_fuzzy_min_max(2:end))
 title('Fuzzy elbow plot - min max normalization')
 
-% Based on the elbow plot the number of clusters that best represent the data using
-% k-means are 3. However, the decrease on J is not so big so k-means maybe
-% is not an appropriate algorithm for clustering the specfic data.
-cluster_1 = country(find(best_bel_k_means_zscore{3} == 1));
-cluster_2 = country(find(best_bel_k_means_zscore{3} == 2));
-cluster_3 = country(find(best_bel_k_means_zscore{3} == 3));
-
-% fuzzy are 3
-U = best_bel_fuzzy_zscore{3};
-maxU = max(U);
-index1 = find(U(1,:) == maxU);
-index2 = find(U(2,:) == maxU);
-index3 = find(U(3,:) == maxU);
-cluster_1_f = country(index1);
-cluster_2_f = country(index2);
-cluster_3_f = country(index3);
-
-
 % Quantization
 % k-means
-
 [best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'K-means - min max');
-
-
-
-% To do: 
-% Check why for 1 cluster we have a smaller value than with other values . An indication that we
-% don't have compact clusters or a bug (?)
-% min-max normalization and execute again all the algorithms (?)
-% Try k-medians clopy paste the code (?)
-% Execute other fuzzy algorithms..
-% Find a way to charecterize the clustering produced. Std per feature in
-% each clusters as the professor said (?) Mean,std,histogram ? Check the subject
-% characterization of clusters in the assignment.
+% fuzzy
+[best_fuzzy_clustering_zscore] = quantization(standard_score,country,3,best_bel_fuzzy_zscore,features_names,'fuzzy - zscore');
