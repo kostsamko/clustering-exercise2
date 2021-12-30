@@ -32,6 +32,7 @@ features_names = setdiff(features_names, features_names{8});
 standard_score = zscore(Countrydata);
 coefficient_standard_score = corrcoef(Countrydata);
 
+
 % min max normalization
 min_max_normalization = normalize(Countrydata, 'range');
 coefficient_min_max_normalization = corrcoef(Countrydata);
@@ -93,35 +94,19 @@ figure(9), plot(2:number_of_clusters,best_J_gmm_min_max(2:end))
 title('Gausian Mixture models elbow plot - min max normalization')
 hold off
 
-
-
-
 % Based on the elbow plot the number of clusters that best represent the data using
 % k-means are 3. However, the decrease on J is not so big so k-means maybe
 % is not an appropriate algorithm for clustering the specfic data.
-cluster_1 = country(find(best_bel_k_means_zscore{3} == 1))
-cluster_2 = country(find(best_bel_k_means_zscore{3} == 2))
-cluster_3 = country(find(best_bel_k_means_zscore{3} == 3))
+cluster_1 = country(find(best_bel_k_means_zscore{3} == 1));
+cluster_2 = country(find(best_bel_k_means_zscore{3} == 2));
+cluster_3 = country(find(best_bel_k_means_zscore{3} == 3));
+
 
 % Quantization
 % k-means
 
-k_means_zscore = Countrydata(find(best_bel_k_means_zscore{3} == 3),:);
-min_features_values = min(k_means_zscore);
-max_features_values = max(k_means_zscore);
-figure(1), hold on
-[~,length] = size(features_names);
-for i=1:length
-    subplot(3,3,i)
-    histogram(k_means_zscore(:,i));
-    title(features_names{i}) 
-end
-hold off
+[best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'K-means - min max');
 
-%mean, standard devation per feature
-mean_features_values = mean(k_means_zscore);
-std_features_values = std(k_means_zscore);
-%matrix with correlation between features. Drop some highly corelated feautues(?)
 
 
 % To do: 
