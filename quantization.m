@@ -21,6 +21,7 @@ hold off
 
 min_values = min(data);
 max_values = max(data);
+mean_values = mean(data);
 
 figure(figure_index+1), hold on
 X = categorical(features_names);
@@ -31,9 +32,16 @@ for i=1:clusters
      h = bar(X, diag(std_features_values{i}),'stacked');
      title(strcat('cluster: ',int2str(i)));
      sgtitle(strcat(title_name,' std bar plot'));
-     legend_cell{i} = strcat('min: ',sprintf('%.2f',min_values(i)),' max: ', sprintf('%.2f',max_values(i)));
+     legend_cell{i} = strcat('min: ',sprintf('%.2f',min_values(i)),' max: ', sprintf('%.2f',max_values(i)), ' mean: ', sprintf('%.2f',mean_values(i)));
 end
+subplot(3,4,i+1)
+[~, features_size]= size(data) ;
+for i=1:clusters
+    std_features_values{i} = zeros(1,features_size);
+end
+h = bar(X, diag(std_features_values{i}),'stacked');
+axis off
 set(h, {'DisplayName'}, legend_cell')
 lg = legend();
-lg.Location = 'northeastoutside';
+lg.Location = 'northwest';
 hold off
