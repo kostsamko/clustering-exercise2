@@ -130,8 +130,23 @@ title('Fuzzy GK elbow plot - min max normalization')
 
 % Quantization
 % k-means
-[best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'K-means - min max');
-% fuzzy
-[best_fuzzy_clustering_zscore] = quantization(standard_score,country,3,best_bel_fuzzy_zscore,features_names,'fuzzy - zscore');
-
-[best_fuzzy_gk_clustering_zscore] = quantization(standard_score,country,3,best_bel_fuzzy_gk_zscore,features_names,'fuzzy GK - zscore');
+[best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'k-means - min max');
+[best_k_means_clustering_zscore] = quantization(standard_score,country,7,best_bel_k_means_zscore,features_names,'k-means - zscore');
+% k-medians
+[best_k_medians_clustering_min_max] = quantization(min_max_normalization,country,3,best_bel_k_medians_min_max,features_names,'K-medians - min max');
+[best_k_medians_clustering_zscore] = quantization(standard_score,country,3,best_bel_k_medians_zscore,features_names,'K-medians - zscore');
+% gmm
+[best_gmm_clustering_min_max_1] = quantization(min_max_normalization,country,8,best_bel_gmm_min_max,features_names,'gmm - min max');
+[best_gmm_clustering_min_max_2] = quantization(min_max_normalization,country,9,best_bel_gmm_min_max,features_names,'gmm - min max');
+[best_gmm_clustering_zscore_1] = quantization(standard_score,country,8,best_bel_gmm_zscore,features_names,'gmm- zscore');
+[best_gmm_clustering_zscore_2] = quantization(standard_score,country,9,best_bel_gmm_zscore,features_names,'gmm- zscore');
+% fuzzy c-means
+[best_fuzzy_clustering_zscore_1] = quantization(standard_score,country,3,best_bel_fuzzy_zscore,features_names,'fuzzy c-means- zscore');
+[best_fuzzy_clustering_zscore_2] = quantization(standard_score,country,4,best_bel_fuzzy_zscore,features_names,'fuzzy c-means- zscore');
+[best_fuzzy_clustering_min_max_1] = quantization(min_max_normalization,country,3,best_bel_cmeans_min_max,features_names,'fuzzy c-means- min max');
+[best_fuzzy_clustering_min_max_2] = quantization(min_max_normalization,country,4,best_bel_cmeans_min_max,features_names,'fuzzy c-means- min max');
+% fuzzy GK
+[best_fuzzy_gk_clustering_zscore_1] = quantization(standard_score,country,3,best_bel_fuzzy_gk_zscore,features_names,'fuzzy GK - zscore');
+[best_fuzzy_gk_clustering_zscore_2] = quantization(standard_score,country,4,best_bel_fuzzy_gk_zscore,features_names,'fuzzy GK - zscore');
+[best_fuzzy_gk_clustering_mix_max_1] = quantization(min_max_normalization,country,3,best_bel_fuzzy_gk_min_max,features_names,'fuzzy GK - min max');
+[best_fuzzy_gk_clustering_mix_max_2] = quantization(min_max_normalization,country,4,best_bel_fuzzy_gk_min_max,features_names,'fuzzy GK - min max');
