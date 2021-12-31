@@ -5,15 +5,17 @@ clustering = cell(1,clusters);
 [figure_index,~] = size(get(0,'Children'));
 for i=1:clusters
      % data per cluster
-     cluster = data(find(bel{clusters} == i),:);
-     % std per cluster
-     std_features_values{i} = std(cluster);
      % do the clustering
      if startsWith(title_name,'fuzzy')
-         clustering{i} = labels(find(bel{clusters}(i,:) == max(bel{clusters})));
+         indexes = find(bel{clusters}(i,:) == max(bel{clusters}));
+         cluster = data(indexes,:);
+         clustering{i} = labels(indexes);
      else
+         cluster = data(find(bel{clusters} == i),:);
          clustering{i} = labels(bel{clusters} == i);
      end
+     % std per cluster
+     std_features_values{i} = std(cluster);
      figure(figure_index+i), hold on
      [~,length] = size(features_names);
      % histogram per cluster

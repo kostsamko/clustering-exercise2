@@ -45,67 +45,78 @@ coefficient_min_max_normalization = corrcoef(Countrydata);
 number_of_clusters = 10;
 
 % k-means
-[best_thetas_k_means_zscore,best_bel_k_means_zscore,best_J_k_means_zscore] = k_algorithms(standard_score',number_of_clusters, 1000, 'k_means');
+[best_thetas_k_means_zscore,best_bel_k_means_zscore,best_J_k_means_zscore] = cfo_algorithms(standard_score',number_of_clusters, 1000, 'k_means');
 % plot elbow curve to find the number of clusters
 figure(2), plot(2:number_of_clusters,best_J_k_means_zscore(2:end))
 title('K-means elbow plot - zscore normalization')
 hold off
 
-[best_thetas_k_means_min_max,best_bel_k_means_min_max,best_J_k_means_min_max] = k_algorithms(min_max_normalization',number_of_clusters,1000, 'k_means');
+[best_thetas_k_means_min_max,best_bel_k_means_min_max,best_J_k_means_min_max] = cfo_algorithms(min_max_normalization',number_of_clusters,1000, 'k_means');
 % plot elbow curve to find the number of clusters
 figure(3), plot(2:number_of_clusters,best_J_k_means_min_max(2:end))
 title('K-means elbow plot - min max normalization')
 hold off
 
 % k-medians
-[best_thetas_k_medians_zscore,best_bel_k_medians_zscore,best_J_k_medians_zscore] = k_algorithms(standard_score',number_of_clusters, 1000, 'k_medians');
+[best_thetas_k_medians_zscore,best_bel_k_medians_zscore,best_J_k_medians_zscore] = cfo_algorithms(standard_score',number_of_clusters, 1000, 'k_medians');
 % plot elbow curve to find the number of clusters
 figure(4), plot(2:number_of_clusters,best_J_k_medians_zscore(2:end))
 title('K-medians elbow plot - zscore normalization')
 hold off
 
-[best_thetas_k_medians_min_max,best_bel_k_medians_min_max,best_J_k_medians_min_max] = k_algorithms(min_max_normalization',number_of_clusters, 1000, 'k_medians');
+[best_thetas_k_medians_min_max,best_bel_k_medians_min_max,best_J_k_medians_min_max] = cfo_algorithms(min_max_normalization',number_of_clusters, 1000, 'k_medians');
 % plot elbow curve to find the number of clusters
 figure(5), plot(2:number_of_clusters,best_J_k_medians_min_max(2:end))
 title('K-medians elbow plot - min max normalization')
 hold off
 
 % k-medoids
-[best_thetas_k_medoids_zscore,best_bel_k_medoids_zscore,best_J_k_medoids_zscore] = k_algorithms(standard_score',number_of_clusters, 10, 'k_medoids');
+[best_thetas_k_medoids_zscore,best_bel_k_medoids_zscore,best_J_k_medoids_zscore] = cfo_algorithms(standard_score',number_of_clusters, 10, 'k_medoids');
 % plot elbow curve to find the number of clusters
 figure(6), plot(2:number_of_clusters,best_J_k_medoids_zscore(2:end))
 title('K-medoids elbow plot - zscore normalization')
 hold off
 
-[best_thetas_k_medoids_min_max,best_bel_k_medoids_min_max,best_J_k_medoids_min_max] = k_algorithms(min_max_normalization',number_of_clusters, 10, 'k_medoids');
+[best_thetas_k_medoids_min_max,best_bel_k_medoids_min_max,best_J_k_medoids_min_max] = cfo_algorithms(min_max_normalization',number_of_clusters, 10, 'k_medoids');
 % plot elbow curve to find the number of clusters
 figure(7), plot(2:number_of_clusters,best_J_k_medoids_min_max(2:end))
 title('K-medoids elbow plot - min max normalization')
 hold off
 
 % probalistic with gaussian mixture models
-[best_thetas_gmm_zscore,best_bel_gmm_zscore,best_J_gmm_zscore] = k_algorithms(standard_score',number_of_clusters, 1000, 'probalistic_gmm');
+[best_thetas_gmm_zscore,best_bel_gmm_zscore,best_J_gmm_zscore] = cfo_algorithms(standard_score',number_of_clusters, 1000, 'probalistic_gmm');
 % plot elbow curve to find the number of clusters
 figure(8), plot(2:number_of_clusters,best_J_gmm_zscore(2:end))
 title('Gausian Mixture models elbow plot - zscore normalization')
 hold off
 
-[best_thetas_gmm_min_max,best_bel_gmm_min_max,best_J_gmm_min_max] = k_algorithms(min_max_normalization',number_of_clusters, 1000, 'probalistic_gmm');
+[best_thetas_gmm_min_max,best_bel_gmm_min_max,best_J_gmm_min_max] = cfo_algorithms(min_max_normalization',number_of_clusters, 1000, 'probalistic_gmm');
 % plot elbow curve to find the number of clusters
 figure(9), plot(2:number_of_clusters,best_J_gmm_min_max(2:end))
 title('Gausian Mixture models elbow plot - min max normalization')
 hold off
 
-% fuzzy algorithm
-[best_thetas_fuzzy_zscore, best_bel_fuzzy_zscore, best_J_fuzzy_zscore] = k_algorithms(standard_score, number_of_clusters, 1000, 'fuzzy');
+% fuzzy c-means algorithm
+[best_thetas_fuzzy_cmeans_zscore, best_bel_fuzzy_cmeans_zscore, best_J_fuzzy_cmeans_zscore] = cfo_algorithms(standard_score', number_of_clusters, 1000, 'fuzzy');
 % plot elbow curve to find the number of clusters
-figure(10), plot(2:number_of_clusters, best_J_fuzzy_zscore(2:end))
-title('Fuzzy elbow plot - zscore normalization')
+figure(10), plot(2:number_of_clusters, best_J_fuzzy_cmeans_zscore(2:end))
+title('Fuzzy-cmeans elbow plot - zscore normalization')
 
-[best_thetas_fuzzy_min_max, best_bel_fuzzy_min_max, best_J_fuzzy_min_max] = k_algorithms(min_max_normalization, number_of_clusters, 1000, 'fuzzy');
+[best_thetas_cmeans_min_max, best_bel_cmeans_min_max, best_J_cmeans_min_max] = cfo_algorithms(min_max_normalization', number_of_clusters, 1000, 'fuzzy');
 % plot elbow curve to find the number of clusters
-figure(11), plot(2:number_of_clusters, best_J_fuzzy_min_max(2:end))
-title('Fuzzy elbow plot - min max normalization')
+figure(11), plot(2:number_of_clusters, best_J_cmeans_min_max(2:end))
+title('Fuzzy-cmeans elbow plot - min max normalization')
+
+% fuzzy Gustafson-Kessel
+[best_thetas_fuzzy_GK_zscore, best_bel_fuzzy_GK_zscore, best_J_fuzzy_GK_zscore] = cfo_algorithms(standard_score', number_of_clusters, 1000, 'fuzzy-GK');
+% plot elbow curve to find the number of clusters
+figure(10), plot(2:number_of_clusters, best_J_fuzzy_GK_zscore(2:end))
+title('Fuzzy-GK elbow plot - zscore normalization')
+
+[best_thetas_fuzzy_GK_min_max, best_bel_fuzzy_GK_min_max, best_J_fuzzy_GK_min_max] = cfo_algorithms(min_max_normalization', number_of_clusters, 1000, 'fuzzy-GK');
+% plot elbow curve to find the number of clusters
+figure(11), plot(2:number_of_clusters, best_J_fuzzy_GK_min_max(2:end))
+title('Fuzzy-GK elbow plot - min max normalization')
 
 [best_thetas_fuzzy_gk_zscore, best_bel_fuzzy_gk_zscore, best_J_fuzzy_gk_zscore] = k_algorithms(standard_score, number_of_clusters, 1000, 'fuzzy_gk');
 % plot elbow curve to find the number of clusters

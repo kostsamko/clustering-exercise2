@@ -1,4 +1,4 @@
-function [best_thetas,best_bel,best_J]=k_algorithms(X,clusters, run_times, algorithm)
+function [best_thetas,best_bel,best_J]=cfo_algorithms(X,clusters, run_times, algorithm)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +38,7 @@ best_bel = cell(1,clusters);
 
 if strcmp('k_means',algorithm) || strcmp('k_medians',algorithm)
     % number of clusters to check
-    for j=1:clusters
+    for j=2:clusters
         theta_ini = zeros(l,j);
         min_J = inf;
         % number of runs to choose a good initial theta
@@ -60,7 +60,7 @@ if strcmp('k_means',algorithm) || strcmp('k_medians',algorithm)
         end 
     end
 elseif strcmp('k_medoids',algorithm)
-  for j=1:clusters  
+  for j=2:clusters
      min_J = inf;  
      for t=1:run_times
         [theta,bel,J] = feval(algorithm,X,j,t);
@@ -74,17 +74,17 @@ elseif strcmp('k_medoids',algorithm)
   end
 elseif strcmp('probalistic_gmm',algorithm)
     options = statset('MaxIter',1000);
-    for j=1:10
+    for j=2:10
         GMModel = fitgmdist(X',j,'Replicates',run_times,'RegularizationValue',0.0000000001, 'Options',options);
         best_J(j) = GMModel.NegativeLogLikelihood;
         best_thetas{j} = GMModel.mu';
         best_bel{j} = cluster(GMModel,X')';
     end
 elseif strcmp('fuzzy', algorithm)
-    for j=1:clusters
+    for j=2:clusters
         min_J = inf;
         for t=1:run_times
-            [centers,U,objFunc] = fcm(X,j);
+            [centers,U,objFunc] = fcm(X',j);
             J = objFunc(end,1);
             if J < min_J
                 min_J = J;
@@ -94,23 +94,23 @@ elseif strcmp('fuzzy', algorithm)
             end
         end
     end
-elseif strcmp('fuzzy_gk', algorithm)
-    for j=1:clusters
+elseif strcmp('fuzzy-GK', algorithm)
+    phi=2;
+    maxiter=1000;
+    toldif=1e-6;
+    ndata = size(X', 1);
+    for j=2:clusters
         min_J = inf;
         for t=1:run_times
-            param.c=j;
-            param.m=2;
-            param.e=1e-6;
-            param.ro=ones(1,param.c);
-            param.val=3;
-            result = GKclust(X,param);
-            J = result.cost(end);
-            if J < min_J
-                min_J = J;
-                best_thetas{j} = result.cluster.v;
-                best_J(j) = J;
-                best_bel{j} = result.data.f;
-            end
+           Uinit= initmember(0.1,j,ndata); % initialise random
+           [U, centroid, ~, ~, ~, obj] = gk_fkm(j,X',Uinit,phi,maxiter,toldif);
+           J = obj;
+           if J < min_J
+               min_J = J;
+               best_thetas{j} = centroid;
+               best_J(j) = J;
+               best_bel{j} = U';
+           end
         end
     end
 else
