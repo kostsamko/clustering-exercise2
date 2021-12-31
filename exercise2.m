@@ -1,3 +1,5 @@
+close all;
+clear;
 load data_country;
 
 %feeling the data
@@ -105,8 +107,20 @@ title('Fuzzy elbow plot - zscore normalization')
 figure(11), plot(2:number_of_clusters, best_J_fuzzy_min_max(2:end))
 title('Fuzzy elbow plot - min max normalization')
 
+[best_thetas_fuzzy_gk_zscore, best_bel_fuzzy_gk_zscore, best_J_fuzzy_gk_zscore] = k_algorithms(standard_score, number_of_clusters, 1000, 'fuzzy_gk');
+% plot elbow curve to find the number of clusters
+figure(12), plot(2:number_of_clusters, best_J_fuzzy_gk_zscore(2:end))
+title('Fuzzy GK elbow plot - zscore normalization')
+
+[best_thetas_fuzzy_gk_min_max, best_bel_fuzzy_gk_min_max, best_J_fuzzy_gk_min_max] = k_algorithms(min_max_normalization, number_of_clusters, 1000, 'fuzzy_gk');
+% plot elbow curve to find the number of clusters
+figure(13), plot(2:number_of_clusters, best_J_fuzzy_gk_min_max(2:end))
+title('Fuzzy GK elbow plot - min max normalization')
+
 % Quantization
 % k-means
 [best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'K-means - min max');
 % fuzzy
 [best_fuzzy_clustering_zscore] = quantization(standard_score,country,3,best_bel_fuzzy_zscore,features_names,'fuzzy - zscore');
+
+[best_fuzzy_gk_clustering_zscore] = quantization(standard_score,country,3,best_bel_fuzzy_gk_zscore,features_names,'fuzzy GK - zscore');

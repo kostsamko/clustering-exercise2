@@ -94,6 +94,25 @@ elseif strcmp('fuzzy', algorithm)
             end
         end
     end
+elseif strcmp('fuzzy_gk', algorithm)
+    for j=1:clusters
+        min_J = inf;
+        for t=1:run_times
+            param.c=j;
+            param.m=2;
+            param.e=1e-6;
+            param.ro=ones(1,param.c);
+            param.val=3;
+            result = GKclust(X,param);
+            J = result.cost(end);
+            if J < min_J
+                min_J = J;
+                best_thetas{j} = result.cluster.v;
+                best_J(j) = J;
+                best_bel{j} = result.data.f;
+            end
+        end
+    end
 else
     error('Algorithm is not supported');
 end
