@@ -1,5 +1,6 @@
 function [clustering]=quantization(data,labels,clusters, bel, features_names, title_name)
 
+[~, features_size]= size(data);
 std_features_values = cell(1,clusters);
 clustering = cell(1,clusters);
 [figure_index,~] = size(get(0,'Children'));
@@ -15,7 +16,12 @@ for i=1:clusters
          clustering{i} = labels(bel{clusters} == i);
      end
      % std per cluster
-     std_features_values{i} = std(cluster);
+     [size_cluster, ~] = size(cluster);
+     if size_cluster > 1
+        std_features_values{i} = std(cluster);
+     else
+      std_features_values{i} = zeros(1,features_size) ;
+     end  
      figure(figure_index+i), hold on
      [~,length] = size(features_names);
      % histogram per cluster
@@ -37,7 +43,6 @@ figure(figure_index+1), hold on
 X = categorical(features_names);
 X = reordercats(X,features_names);
 legend_cell = cell(1,clusters);
-[~, features_size]= size(data);
 
 % plot bar plot per cluster with all features
 for i=1:clusters
