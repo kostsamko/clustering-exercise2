@@ -42,7 +42,7 @@ mean_values = mean(data);
 figure(figure_index+1), hold on
 X = categorical(features_names);
 X = reordercats(X,features_names);
-legend_cell = cell(1,clusters);
+legend_cell = cell(1,features_size);
 
 % plot bar plot per cluster with all features
 for i=1:clusters
