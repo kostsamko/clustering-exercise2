@@ -110,12 +110,12 @@ title('Fuzzy-cmeans elbow plot - min max normalization')
 % fuzzy Gustafson-Kessel
 [best_thetas_fuzzy_GK_zscore, best_bel_fuzzy_GK_zscore, best_J_fuzzy_GK_zscore] = cfo_algorithms(standard_score', number_of_clusters, 1000, 'fuzzy-GK');
 % plot elbow curve to find the number of clusters
-figure(10), plot(2:number_of_clusters, best_J_fuzzy_GK_zscore(2:end))
+figure(12), plot(2:number_of_clusters, best_J_fuzzy_GK_zscore(2:end))
 title('Fuzzy-GK elbow plot - zscore normalization')
 
 [best_thetas_fuzzy_GK_min_max, best_bel_fuzzy_GK_min_max, best_J_fuzzy_GK_min_max] = cfo_algorithms(min_max_normalization', number_of_clusters, 1000, 'fuzzy-GK');
 % plot elbow curve to find the number of clusters
-figure(11), plot(2:number_of_clusters, best_J_fuzzy_GK_min_max(2:end))
+figure(13), plot(2:number_of_clusters, best_J_fuzzy_GK_min_max(2:end))
 title('Fuzzy-GK elbow plot - min max normalization')
 
 % Quantization
