@@ -118,6 +118,10 @@ title('Fuzzy-GK elbow plot - zscore normalization')
 figure(13), plot(2:number_of_clusters, best_J_fuzzy_GK_min_max(2:end))
 title('Fuzzy-GK elbow plot - min max normalization')
 
+%possibilistic c-means
+[best_thetas_possibilistic_zscore, best_bel_possibilistic_zscore, best_J_possibilistic_zscore] = cfo_algorithms(standard_score', number_of_clusters, 1000, 'possibilistic-c_means');
+[best_thetas_possibilistic_mix_max, best_bel_possibilistic_min_max, best_J_possibilistic_min_max] = cfo_algorithms(min_max_normalization', number_of_clusters, 1000, 'possibilistic-c_means');
+
 % Quantization
 % k-means
 [best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'k-means - min max');
@@ -143,3 +147,6 @@ title('Fuzzy-GK elbow plot - min max normalization')
 [best_fuzzy_gk_clustering_zscore_2] = quantization(standard_score,country,4,best_bel_fuzzy_GK_zscore,features_names,'fuzzy GK - zscore');
 [best_fuzzy_gk_clustering_mix_max_1] = quantization(min_max_normalization,country,3,best_bel_fuzzy_GK_min_max,features_names,'fuzzy GK - min max');
 [best_fuzzy_gk_clustering_mix_max_2] = quantization(min_max_normalization,country,4,best_bel_fuzzy_GK_min_max,features_names,'fuzzy GK - min max');
+% possibilistic c-means
+[best_possibilistic_clustering_zscore] = quantization(standard_score,country,number_of_clusters,best_bel_possibilistic_zscore{number_of_clusters},features_names,'possibilistic - zscore');
+[best_possibilistic_clustering_min_max] = quantization(min_max_normalization,country,number_of_clusters,best_bel_possibilistic_min_max{number_of_clusters},features_names,'possibilistic - min max');

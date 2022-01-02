@@ -113,6 +113,45 @@ elseif strcmp('fuzzy-GK', algorithm)
            end
         end
     end
+elseif strcmp('possibilistic-c_means', algorithm)
+    [N, ~] = size(X');
+    %try to estimate the etas..
+    %First approach using the variance from the mean from every datapoint
+    b = sum(sum(((X' - ones(N,1) * mean(X')).^2)'))/N;
+    etas = (b/(2 * sqrt(clusters)) * ones(clusters,1))';
+    
+    % second approach trying to run a fuzzy c-means algorithm first to
+    % estimate the variance from each cluster.
+    % When we try this approach the etas were not estimated correcly and
+    % and all point tend to belong to only one cluster..
+    % We keep the code for future work
+    %     etas = zeros(1,clusters)
+    %     for i=1:clusters
+    %         etas(i) = sum(sum(((X' - ones(N,1)*best_thetas_cmeans_min_max{clusters}(i,:)).^2)') .* best_bel_fuzzy_cmeans_zscore{clusters}(i,:).^2) / sum(best_bel_fuzzy_cmeans_zscore{clusters}(i,:).^2)
+    %     end
+    toldif=1e-6;
+    % We use the second version of the algorithm, the results seem to be
+    % better.
+    % Run the algorithm firstly when the points have the max distance on each
+    % the other based on the mean
+    [U,theta, J] = possibi(X,clusters,etas,0,0,3,toldif);
+    min_J = J;
+    best_thetas{clusters} = theta;
+    best_J(clusters) = J;
+    best_bel{clusters} = U';
+    % run again the algorithm trying to find better initial values for the
+    % representatives
+    for init_proc=1:2
+        for t=1:run_times
+            [U,theta, J] = possibi(X,clusters,etas,0,t,init_proc,toldif);
+            if J < min_J
+                min_J = J;
+                best_thetas{clusters} = theta;
+                best_J(clusters) = J;
+                best_bel{clusters} = U';
+            end
+        end
+    end
 else
     error('Algorithm is not supported');
 end

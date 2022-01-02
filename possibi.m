@@ -1,4 +1,4 @@
-function [U,theta]=possibi(X,m,eta,q,sed,init_proc,e_thres)
+function [U,theta,J]=possibi(X,m,eta,q,sed,init_proc,e_thres)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FUNCTION
@@ -116,4 +116,18 @@ else  % Alternative possibilistic scheme
         end
         e=sum(sum(abs(theta-theta_old)));
     end
+    %calculate J
+    [N, M] = size(U);
+    
+    sum_a = 0;
+    for i=1:N
+        sum_a = sum_a + sum(U(i,:) .* sum((X(:,i) * ones(1,M)  - theta).^2));
+    end
+    
+    sum_b = 0;
+    for i=1:M
+         sum_b = sum_b + (sum(U(:,i) .* log(U(:,i)) - U(:,i)) * eta(m));
+    end
+    
+    J = sum_a + sum_b;
 end

@@ -11,6 +11,10 @@ for i=1:clusters
          indexes = find(bel{clusters}(i,:) == max(bel{clusters}));
          cluster = data(indexes,:);
          clustering{i} = labels(indexes);
+      elseif startsWith(title_name,'possib')
+         indexes = find(bel(i,:) == max(bel));
+         cluster = data(indexes,:);     
+         clustering{i} = labels(indexes,:);         
      else
          cluster = data(find(bel{clusters} == i),:);
          clustering{i} = labels(bel{clusters} == i);
@@ -21,7 +25,7 @@ for i=1:clusters
         std_features_values{i} = std(cluster);
      else
       std_features_values{i} = zeros(1,features_size) ;
-     end  
+     end
      figure(figure_index+i), hold on
      [~,length] = size(features_names);
      % histogram per cluster
