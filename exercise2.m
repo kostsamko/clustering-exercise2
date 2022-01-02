@@ -124,8 +124,8 @@ title('Fuzzy-GK elbow plot - min max normalization')
 
 % Quantization
 % k-means
-[best_k_means_clustering_min_max] = quantization(min_max_normalization,country,7,best_bel_k_means_min_max,features_names,'k-means - min max');
-[best_k_means_clustering_zscore] = quantization(standard_score,country,7,best_bel_k_means_zscore,features_names,'k-means - zscore');
+[best_k_means_clustering_min_max] = quantization(min_max_normalization,country,3,best_bel_k_means_min_max,features_names,'k-means - min max');
+[best_k_means_clustering_zscore] = quantization(standard_score,country,3,best_bel_k_means_zscore,features_names,'k-means - zscore');
 % k-medians
 [best_k_medians_clustering_min_max] = quantization(min_max_normalization,country,3,best_bel_k_medians_min_max,features_names,'K-medians - min max');
 [best_k_medians_clustering_zscore] = quantization(standard_score,country,3,best_bel_k_medians_zscore,features_names,'K-medians - zscore');
